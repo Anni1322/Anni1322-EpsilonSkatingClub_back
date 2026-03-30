@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const enrollmentController = require('../controllers/enrollmentController');
+const { verifyAnyToken } = require('../middleware/authMiddleware');
 
 // Routes
-router.get('/', enrollmentController.getAllEnrollments);
-router.get('/:id', enrollmentController.getEnrollmentById);
-router.get('/student/:studentId', enrollmentController.getEnrollmentsByStudentId);
-router.post('/', enrollmentController.createEnrollment);
-router.put('/:id', enrollmentController.updateEnrollment);
-router.delete('/:id', enrollmentController.deleteEnrollment);
+router.get('/', verifyAnyToken, enrollmentController.getAllEnrollments);
+router.get('/student/:studentId', verifyAnyToken, enrollmentController.getEnrollmentsByStudentId);
+router.get('/:id', verifyAnyToken, enrollmentController.getEnrollmentById);
+router.post('/', verifyAnyToken, enrollmentController.createEnrollment);
+router.put('/:id', verifyAnyToken, enrollmentController.updateEnrollment);
+router.delete('/:id', verifyAnyToken, enrollmentController.deleteEnrollment);
 
 module.exports = router;
